@@ -94,7 +94,6 @@ def mount_hugetlbfs(args):
 
 
 def parse_args():
-
     try:
         supported_sizes = list_supported_sizes()
     except Exception as exc:
@@ -118,9 +117,7 @@ def parse_args():
         help="Hugepage size in kB",
     )
 
-    setup.add_argument(
-        "--count", required=True, type=int, help="Number of pages to reserve"
-    )
+    setup.add_argument("--count", required=True, type=int, help="Number of pages to reserve")
 
     mount = subparsers.add_parser("mount", help="Mount hugetlbfs")
     mount.add_argument("--mountpoint", help="Mount location (default: /dev/hugepages)")
