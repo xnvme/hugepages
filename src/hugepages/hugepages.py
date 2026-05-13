@@ -11,12 +11,43 @@ import sys
 import logging as log
 from pathlib import Path
 
+__version__ = "0.2.0"
+
 HUGEPAGE_MOUNTS = [
     "/dev/hugepages",
     "/mnt/huge",
     "/hugepages",
 ]
 SYSFS_HUGEPAGES = Path("/sys/kernel/mm/hugepages")
+
+BASH_COMPLETION = r"""# bash completion for hugepages
+_hugepages() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local prev="${COMP_WORDS[COMP_CWORD-1]}"
+    local subcommands="info setup mount"
+    local global_opts="--verbose --help --print-completion"
+    case "${prev}" in
+        --mountpoint)
+            compopt -o default 2>/dev/null
+            return 0
+            ;;
+    esac
+    local cmd=""
+    local i
+    for ((i = 1; i < COMP_CWORD; i++)); do
+        case "${COMP_WORDS[i]}" in
+            info|setup|mount) cmd="${COMP_WORDS[i]}"; break ;;
+        esac
+    done
+    case "${cmd}" in
+        setup) COMPREPLY=($(compgen -W "--size --count ${global_opts}" -- "${cur}")) ;;
+        mount) COMPREPLY=($(compgen -W "--mountpoint --pagesize ${global_opts}" -- "${cur}")) ;;
+        info)  COMPREPLY=($(compgen -W "${global_opts}" -- "${cur}")) ;;
+        *)     COMPREPLY=($(compgen -W "${subcommands} ${global_opts}" -- "${cur}")) ;;
+    esac
+}
+complete -F _hugepages hugepages
+"""
 
 
 def run(cmd: str):
@@ -102,6 +133,7 @@ def parse_args():
 
     parser = argparse.ArgumentParser(description="Manage Linux Hugepages")
 
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
 
     subparsers = parser.add_subparsers(dest="command")
@@ -123,11 +155,22 @@ def parse_args():
     mount.add_argument("--mountpoint", help="Mount location (default: /dev/hugepages)")
     mount.add_argument("--pagesize", help="Optional hugepage size in kB")
 
+    parser.add_argument(
+        "--print-completion",
+        choices=["bash"],
+        metavar="SHELL",
+        help="Print shell completion script to stdout and exit",
+    )
+
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
+
+    if args.print_completion == "bash":
+        sys.stdout.write(BASH_COMPLETION)
+        return
 
     log.basicConfig(
         level=log.DEBUG if args.verbose else log.INFO,
