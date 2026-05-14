@@ -1,6 +1,6 @@
 # hugepages
 
-![hugepages: inspect and manage hugepages](assets/banner.svg)
+![hugepages: inspect and manage hugepages](https://raw.githubusercontent.com/xnvme/hugepages/main/assets/banner.svg)
 
 Convenience tool to manage hugepages.
 
