@@ -29,6 +29,23 @@ hugepages --print-completion bash > ~/.local/share/bash-completion/completions/h
 
 Open a new shell (or `source` the file) and tab-completion is live: `hugepages <TAB>` lists `info setup mount`.
 
+## Usage
+
+```
+hugepages info                                  # current pool state + supported sizes
+sudo hugepages setup --count 512                # reserve 512 pages at the smallest supported size
+sudo hugepages setup --size 1048576 --count 4   # reserve 4 x 1 GiB pages
+sudo hugepages mount                            # mount hugetlbfs at /dev/hugepages
+```
+
+`hugepages info` sample output:
+
+```
+Hugepage Support:
+  Size: 2048  Total: 512  Free: 512  Reserved: 0
+  Size: 1048576  Total: 4  Free: 4  Reserved: 0
+```
+
 ## Related
 
 - [`devbind`](https://github.com/xnvme/devbind): inspect and control PCI device-driver binding in Linux.
