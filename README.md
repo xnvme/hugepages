@@ -38,12 +38,12 @@ sudo hugepages setup --size 1048576 --count 4   # reserve 4 x 1 GiB pages
 sudo hugepages mount                            # mount hugetlbfs at /dev/hugepages
 ```
 
-`hugepages info` sample output:
+`hugepages info` sample output (pool not yet reserved):
 
 ```
 Hugepage Support:
-  Size: 2048  Total: 512  Free: 512  Reserved: 0
-  Size: 1048576  Total: 4  Free: 4  Reserved: 0
+  Size: 2048kB  Total: 0  Free: 0  Reserved: 0
+  Size: 1048576kB  Total: 0  Free: 0  Reserved: 0
 ```
 
 ## Related

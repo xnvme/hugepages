@@ -12,7 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 
 HUGEPAGE_MOUNTS = [
     "/dev/hugepages",
