@@ -1,8 +1,8 @@
+![hugepages: inspect and manage Linux hugepages](https://raw.githubusercontent.com/xnvme/hugepages/main/assets/banner.svg)
+
 # hugepages
 
-![hugepages: inspect and manage hugepages](https://raw.githubusercontent.com/xnvme/hugepages/main/assets/banner.svg)
-
-Convenience tool to manage hugepages.
+Inspect and manage Linux hugepages.
 
 ## Install
 

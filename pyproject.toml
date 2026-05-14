@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hugepages"
 dynamic = ["version"]
-description = "Inspect and configure Linux hugepages"
+description = "Inspect and manage Linux hugepages"
 readme = "README.md"
 license = "BSD-3-Clause"
 requires-python = ">=3.10"
