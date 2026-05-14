@@ -6,7 +6,11 @@
 [![Python](https://img.shields.io/pypi/pyversions/hugepages.svg)](https://pypi.org/project/hugepages/)
 [![Test](https://github.com/xnvme/hugepages/actions/workflows/test.yml/badge.svg)](https://github.com/xnvme/hugepages/actions/workflows/test.yml)
 
-Inspect and manage Linux hugepages.
+`hugepages` is a small CLI for inspecting and configuring the Linux
+hugepage pool. It reports current totals, free, and reserved counts per
+supported page size, reserves pages via the sysfs interface at
+`/sys/kernel/mm/hugepages/`, and mounts the hugetlbfs filesystem
+(default `/dev/hugepages`).
 
 ## Install
 
@@ -72,4 +76,4 @@ Hugepage Support:
 ## Related
 
 - [`devbind`](https://github.com/xnvme/devbind): inspect and control PCI device-driver binding in Linux.
-- [`iommu`](https://github.com/safl/iommu): inspect and configure the IOMMU isolation level in Linux.
+- [`iommu`](https://github.com/safl/iommu): inspect and configure the IOMMU in Linux.
