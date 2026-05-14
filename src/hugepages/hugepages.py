@@ -12,7 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-__version__ = "0.2.7"
+__version__ = "0.2.8"
 
 HUGEPAGE_MOUNTS = [
     "/dev/hugepages",
@@ -132,7 +132,7 @@ def parse_args():
         supported_sizes = []
         log.warning(f"Could not read supported hugepage sizes: {exc}")
 
-    parser = argparse.ArgumentParser(description="Manage Linux Hugepages")
+    parser = argparse.ArgumentParser(description="Inspect and manage Linux hugepages")
 
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")

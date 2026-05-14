@@ -32,6 +32,29 @@ Open a new shell (or `source` the file) and tab-completion is live: `hugepages <
 ## Usage
 
 ```
+$ hugepages --help
+usage: hugepages [-h] [--version] [--verbose] [--print-completion SHELL]
+                 {info,setup,mount} ...
+
+Inspect and manage Linux hugepages
+
+positional arguments:
+  {info,setup,mount}
+    info                Show hugepage status and capabilities
+    setup               Configure hugepage pool
+    mount               Mount hugetlbfs
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --verbose             Enable verbose logging
+  --print-completion SHELL
+                        Print shell completion script to stdout and exit
+```
+
+A few common invocations:
+
+```
 hugepages info                                  # current pool state + supported sizes
 sudo hugepages setup --count 512                # reserve 512 pages at the smallest supported size
 sudo hugepages setup --size 1048576 --count 4   # reserve 4 x 1 GiB pages
