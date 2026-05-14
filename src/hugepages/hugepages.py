@@ -4,11 +4,12 @@
 #
 # Tool for inspecting and configuring hugepages on Linux
 #
-import subprocess
 import argparse
-import os
-import sys
+import errno
 import logging as log
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 __version__ = "0.2.0"
@@ -91,8 +92,8 @@ def setup_pages(args):
     try:
         sysfs_write(target, str(args.count))
     except PermissionError:
-        log.error("Permission denied. Run as root or with sudo.")
-        sys.exit(1)
+        log.error("Reserving hugepages requires root. Re-run with sudo.")
+        sys.exit(errno.EPERM)
 
     try:
         actual = int(target.read_text())
