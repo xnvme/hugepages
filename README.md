@@ -2,6 +2,10 @@
 
 # hugepages
 
+[![PyPI](https://img.shields.io/pypi/v/hugepages.svg)](https://pypi.org/project/hugepages/)
+[![Python](https://img.shields.io/pypi/pyversions/hugepages.svg)](https://pypi.org/project/hugepages/)
+[![Test](https://github.com/xnvme/hugepages/actions/workflows/test.yml/badge.svg)](https://github.com/xnvme/hugepages/actions/workflows/test.yml)
+
 Inspect and manage Linux hugepages.
 
 ## Install
@@ -24,3 +28,8 @@ hugepages --print-completion bash > ~/.local/share/bash-completion/completions/h
 ```
 
 Open a new shell (or `source` the file) and tab-completion is live: `hugepages <TAB>` lists `info setup mount`.
+
+## Related
+
+- [`devbind`](https://github.com/xnvme/devbind): inspect and control PCI device-driver binding in Linux.
+- [`iommu`](https://github.com/safl/iommu): inspect and configure the IOMMU isolation level in Linux.
