@@ -1,6 +1,6 @@
 # hugepages
 
-![hugepages — inspect and manage hugepages](assets/banner.svg)
+![hugepages: inspect and manage hugepages](assets/banner.svg)
 
 Convenience tool to manage hugepages.
 
@@ -10,10 +10,10 @@ Convenience tool to manage hugepages.
 pipx install hugepages
 ```
 
-Or standalone (single-file, stdlib only -- no pip needed):
+Or standalone (single-file, stdlib only, no pip needed):
 
 ```
-curl -fsSL https://raw.githubusercontent.com/safl/hugepages/main/src/hugepages/hugepages.py \
+curl -fsSL https://raw.githubusercontent.com/xnvme/hugepages/main/src/hugepages/hugepages.py \
   -o ~/.local/bin/hugepages && chmod +x ~/.local/bin/hugepages
 ```
 
