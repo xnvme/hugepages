@@ -61,9 +61,15 @@ A few common invocations:
 ```
 hugepages info                                  # current pool state + supported sizes
 sudo hugepages setup --count 512                # reserve 512 pages at the smallest supported size
-sudo hugepages setup --size 1048576 --count 4   # reserve 4 x 1 GiB pages
+sudo hugepages setup --size 2048 --count 1024   # reserve 1024 x 2 MiB (explicit size)
 sudo hugepages mount                            # mount hugetlbfs at /dev/hugepages
 ```
+
+1 GiB hugepages are only available if the kernel was booted with
+`default_hugepagesz=1G hugepagesz=1G hugepages=N` on the cmdline; the
+kernel reserves the 1 GiB pool at boot, and `hugepages setup` cannot
+enable that size after the fact. `hugepages info` lists the sizes the
+running kernel actually supports.
 
 `hugepages info` sample output (pool not yet reserved):
 
@@ -72,6 +78,18 @@ Hugepage Support:
   Size: 2048kB  Total: 0  Free: 0  Reserved: 0
   Size: 1048576kB  Total: 0  Free: 0  Reserved: 0
 ```
+
+## Allocation paths
+
+`hugepages setup` reserves pages in the kernel pool. Programs that
+allocate via `memfd_create(..., MFD_HUGETLB)` or
+`mmap(..., MAP_HUGETLB)` draw directly from the pool; no filesystem is
+needed. Modern DPDK and custom xNVMe/uPCIe code take this path.
+
+`hugepages mount` additionally mounts the `hugetlbfs` pseudo-filesystem
+(default `/dev/hugepages`). Programs that want file-backed hugepages
+with named-page semantics open and mmap files under the mountpoint.
+SPDK and classic DPDK with `--huge-dir` use this path.
 
 ## Related
 
