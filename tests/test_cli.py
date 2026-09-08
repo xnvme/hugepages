@@ -43,10 +43,12 @@ class _FakeRun:
     def __init__(self, table):
         self.table = table
         self.calls = []
+        self.argv = []
 
     def __call__(self, cmd):
         key = shlex.join(cmd)
         self.calls.append(key)
+        self.argv.append(list(cmd))
         log.info(f"cmd({key})")  # mirror the trace the real run() emits
         if key not in self.table:
             return subprocess.CompletedProcess(cmd, 1, stdout="", stderr="not found")
@@ -332,6 +334,28 @@ def test_freebsd_size_defaults_to_contigmem_default(monkeypatch):
     args = hugepages.parse_args(hugepages.FreeBSDBackend())
     assert args.size == "524288"
     assert args.count == 1
+
+
+def test_linux_mount_passes_the_mountpoint_as_one_argument(monkeypatch, tmp_path):
+    # A mountpoint holding shell metacharacters must reach mount(8) as a
+    # single argument, not as something a shell would split into commands.
+    mountpoint = tmp_path / "hp; reboot"
+    cmd = ["mount", "-t", "hugetlbfs", "nodev", str(mountpoint)]
+    fake = _patch_run(monkeypatch, {shlex.join(cmd): ""})
+    hugepages.LinuxBackend().mount(argparse.Namespace(mountpoint=str(mountpoint), pagesize=None))
+    assert fake.argv == [cmd]
+
+
+def test_linux_setup_count_zero_is_a_release(monkeypatch, tmp_path, caplog):
+    # Writing 0 to nr_hugepages is the documented way to release the pool,
+    # so reading back 0 is success there rather than a failed reservation.
+    size_dir = tmp_path / "hugepages-2048kB"
+    size_dir.mkdir()
+    (size_dir / "nr_hugepages").write_text("0\n")
+    monkeypatch.setattr(hugepages, "SYSFS_HUGEPAGES", tmp_path)
+    with caplog.at_level(log.ERROR):
+        hugepages.LinuxBackend().setup(argparse.Namespace(size="2048", count=0))
+    assert caplog.text == ""
 
 
 def test_linux_setup_still_requires_count(monkeypatch):
