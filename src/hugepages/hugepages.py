@@ -15,7 +15,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-__version__ = "0.2.10"
+__version__ = "0.3.0"
 
 SYSFS_HUGEPAGES = Path("/sys/kernel/mm/hugepages")
 
